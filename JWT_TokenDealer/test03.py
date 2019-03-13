@@ -1,6 +1,7 @@
 import zmq
 import time
 import sys
+import json
 import jwtToken
 
 port = "5556"
@@ -11,6 +12,11 @@ socket.bind("tcp://*:%s" % port)
 while True:
     #  Wait for next request from client
     message = socket.recv()
-    encoded = jwtToken.chiffre('dd','dd','dd')
+    binary = message.content
+	output = json.loads(binary)
+
+    encoded = jwtToken.chiffre(output['pseudo'],output['nom'],output['prenom'])
+
     time.sleep (1)
+
     socket.send(encoded)
