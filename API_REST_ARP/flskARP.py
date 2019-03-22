@@ -14,25 +14,37 @@ def my_microservice():
 	print(request.headers)
 
 	if('Authorization' in request.headers):
-		if(confirmToken(request)):
+		port_push = "5556"
+		context_push = zmq.Context()
+		print("Connecting to server...")
+		socket_push = context_push.socket(zmq.PUSH)
+		try:
+			socket_push.bind ("tcp://localhost:%s" % port)
+		except:
+			response = jsonify({'msg': 'Service Indisponible'})
+			print(response)
+			return response, 404
+
+		if(confirmToken(request, socket)):
 			response = "Good token : " + request.environ["HTTP_AUTHORIZATION"]
 			print(response)
 			return response
 		else:
 			response = jsonify({'msg': 'Wrong Token !'})
+			print(response)
 			return response, 404
-		
+
 	else:
 		response = jsonify({'msg': 'No Token !'})
 		return response, 404
-		
-def confirmToken(request):
-	port = "5556"
-	context = zmq.Context()
-	print("Connecting to server...")
-	socket = context.socket(zmq.REQ)
-	socket.connect ("tcp://localhost:%s" % port)
-	socket.send_string("Hello")
+
+def confirmToken(request, socket):
+	try:
+		socket.send("Hello", zmq.NOBLOCK)
+		print("message send")
+	except:
+		print("no server")
+		return False
 	#  Get the reply.
 	message = socket.recv()
 	print("Received reply [", message, "]")
@@ -47,4 +59,3 @@ if __name__ == '__main__':
     print(app.url_map)
 
 app.run()
-
