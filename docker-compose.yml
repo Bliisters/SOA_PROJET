@@ -2,5 +2,7 @@ version: '2'
 services:
   user: 
     build: ./API_REST_ARP
+    build: ./API_REST_Users
+    build: ./JWT_TokenDealer
     ports:
       - "5000:5000"
