@@ -19,10 +19,10 @@ def getKey() :
     fichier.close()
     return key
 
-def chiffre(id,pseudo,name,lastname) :
+def chiffre(pseudo,name,lastname) :
     setKey()
     key = getKey()
-    encoded = jwt.encode({'id': id, 'pseudo': pseudo, 'name': name, 'lastname': lastname}, key, algorithm='HS256')
+    encoded = jwt.encode({'pseudo': pseudo, 'name': name, 'lastname': lastname}, key, algorithm='HS256')
     return encoded
 
 def dechiffre(encoded) :
@@ -33,5 +33,5 @@ def dechiffre(encoded) :
     except:
         return False
 
-encoded=chiffre(15,'dd','dd','dd')
+encoded=chiffre('dd','dd','dd')
 print(dechiffre(encoded))
