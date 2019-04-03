@@ -1,0 +1,6 @@
+version: '2'
+services:
+  user: 
+    build: ./API_REST_ARP
+    ports:
+      - "5000:5000"
