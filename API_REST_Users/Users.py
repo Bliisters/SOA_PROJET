@@ -113,6 +113,8 @@ def login():
 	sel = sel["salt"]
 	print(sel)
 	
+	return("C'est le token")
+	
 	
 	if sel:
 		print("mdp : "+str(hash(str(mdp)+sel)))
