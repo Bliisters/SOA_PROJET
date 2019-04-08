@@ -7,7 +7,7 @@ def setKey() :
     month3Time = 7884000 #3 mois en secondes
     time2 = os.path.getmtime("tokenUltraUltraSecret.txt")
     if((time.time()-time2)>month3Time) :
-        token = secrets.token_urlsafe()
+        token = secrets.token_urlsafe(40)
         fichier = open("tokenUltraUltraSecret.txt", "w")
         fichier.write(token)
         fichier.close()
