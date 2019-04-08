@@ -23,7 +23,7 @@ def serverVerif(port="5557"):
     print ("Running server on port: ", port)
     while(True) :
         message = socket.recv()
-        decoded = jwtToken.dechiffre(binary)
+        decoded = jwtToken.dechiffre(message)
         time.sleep (1)
         socket.send_string(decoded)
 
