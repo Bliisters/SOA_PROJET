@@ -29,9 +29,9 @@ def dechiffre(encoded) :
     key = getKey()
     try:
         decoded = jwt.decode(encoded, key, algorithms='HS256')
-        return True
+        return "True"
     except:
-        return False
+        return "False"
 
 encoded=chiffre('dd','dd','dd')
 print(dechiffre(encoded))

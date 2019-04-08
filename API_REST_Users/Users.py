@@ -29,113 +29,126 @@ def my_microservice():
 def person(person_id):
     response = jsonify({'Hello': person_id})
     return response
-	
+
 @app.route('/api/test')
 def test(nom):
-	client = MongoClient()
-	db = client.test_database
-	collection = db.posts
-	print("HELLO")
-	doc = pprint.pprint(collection.find_one())
-	return ("WORLD")
-	
+    client = MongoClient()
+    db = client.test_database
+    collection = db.posts
+    print("HELLO")
+    doc = pprint.pprint(collection.find_one())
+    return ("WORLD")
+
 @app.route('/api/add', methods = ['POST'])
 def addUser():
 
-	# Récupération des données de POST 
-	nom = request.form['nom']
-	prenom = request.form['prenom']
-	pseudo = request.form['pseudo']
-	mdp = request.form['mdp']
-	
-	# Vérification de la taille du mot de passe
-	if len(mdp)<10:
-		print("Mot de passe trop court : 10 caractères minimum")
-		return("")
-	
-	# Connection à la base de donnée
-	client = MongoClient()
-	db = client.soa_db
-	collection_user = db.usagers
-	collection_salt = db.baleine
-	
-	# Récupération de l'utilisateur dans la table par son pseudo
-	doc = collection_user.find_one({"pseudo": pseudo})
-	
-	if doc:
-		print("Ce pseudo est déjà pris, réessayez")	
-		return ("")
-		
-	
-	# Création d'un sel de 5 caractères aléatoires
-	salt = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(5))
-	
-	# Hashage & salage du mdp
-	mdp = str(hash(str(mdp)+salt))
-	
-	
-	# Création du post pour la table utilisateur
-	post_user = {"nom": nom,
-		"prenom": prenom,
-		"pseudo": pseudo,
-		"mdp": mdp}
-	
-	# Publication dans la base de donnée de l'utilisateur
-	post_user_id = collection_user.insert_one(post_user).inserted_id
-	
-	# Création du post pour la table des sels
-	post_salt = {"user": pseudo,
-	"salt": salt}
-	
-	# Publication dans la base de données du sel de l'utilisateur
-	post_salt_id = collection_salt.insert_one(post_salt).inserted_id
-	
-	print("Validé !")
-	return("")
+	# Récupération des données de POST
+    if('nom' in request.form and 'prenom' in request.form and 'pseudo' in request.form and 'mdp' in request.form):
+        nom = request.form['nom']
+        prenom = request.form['prenom']
+        pseudo = request.form['pseudo']
+        mdp = request.form['mdp']
+    else:
+        print("champs incomplets")
+        response = jsonify({'error': 'champs incomplets'})
+        print(response)
+        return response, 404
 
-	
+	# Vérification de la taille du mot de passe
+    if len(mdp)<10:
+        print("Mot de passe trop court : 10 caractères minimum")
+        response = jsonify({'error': 'Mot de passe trop court : 10 caractères minimum'})
+        print(response)
+        return response
+
+	# Connection à la base de donnée
+    client = MongoClient()
+    db = client.soa_db
+    collection_user = db.usagers
+    collection_salt = db.baleine
+
+	# Récupération de l'utilisateur dans la table par son pseudo
+    doc = collection_user.find_one({"pseudo": pseudo})
+
+    if doc:
+        print("Ce pseudo est déjà pris, réessayez")
+        response = jsonify({'error': 'Ce pseudo est déjà pris, réessayez'})
+        print(response)
+        return response
+
+
+	# Création d'un sel de 5 caractères aléatoires
+    salt = ''.join(random.SystemRandom().choice(string.ascii_uppercase + string.digits) for _ in range(5))
+
+	# Hashage & salage du mdp
+    mdp = str(hash(str(mdp)+salt))
+
+
+	# Création du post pour la table utilisateur
+    post_user = {"nom": nom,
+        "prenom": prenom,
+        "pseudo": pseudo,
+        "mdp": mdp}
+
+	# Publication dans la base de donnée de l'utilisateur
+    post_user_id = collection_user.insert_one(post_user).inserted_id
+
+	# Création du post pour la table des sels
+    post_salt = {"user": pseudo,
+        "salt": salt}
+
+	# Publication dans la base de données du sel de l'utilisateur
+    post_salt_id = collection_salt.insert_one(post_salt).inserted_id
+
+    print("Validé !")
+    response = jsonify({'accept': 'Compte créé'})
+    print(response)
+    return response
+
+
 @app.route('/api/login', methods = ['POST'])
 def login():
 
 	# Récupération des données du post
-	user = request.form['user']
-	mdp = request.form['mdp']
-	
+    user = request.form['user']
+    mdp = request.form['mdp']
+
 	# Connection à la base de donnée
-	client = MongoClient()
-	db = client.soa_db
-	collection_user = db.usagers
-	collection_salt = db.baleine
-	
+    client = MongoClient()
+    db = client.soa_db
+    collection_user = db.usagers
+    collection_salt = db.baleine
+
 	# Hashage & salage du mdp
-	print(user)
-	sel = collection_salt.find_one({"user":user},{"_id":0})
-	sel = sel["salt"]
-	print(sel)
-	
-	return("C'est le token")
-	
-	
-	if sel:
-		print("mdp : "+str(hash(str(mdp)+sel)))
-		#print()
-		return("")
-	else:
-		print("Connection impossible : vérifiez vos identifiants::::::")
-	return("")
-	
+    print(user)
+    sel = collection_salt.find_one({"user":user},{"_id":0})
+    sel = sel["salt"]
+    print(sel)
+
+    if sel:
+        print("mdp : "+str(hash(str(mdp)+sel)))
+        #ici travailler sur ZMQ
+        response = jsonify({'token': 't0k3n'})
+        print(response)
+        return response
+    else:
+        print("Connection impossible : vérifiez vos identifiants")
+        response = jsonify({'msg': 'mauvais identifiants de connexion'})
+        print(response)
+        return response
+
 	# Vérification de l'existence du profil
 	#doc = collection.find_one({"pseudo": pseudo, "mdp": mdp})
-	
+
 	#if doc == None:
 	#	print("Identifiants invalides")
 	#else:
 	#	print("Vous êtes connecté !")
-		
-	return("")
-		
-	
-	
+
+	#return("")
+
+
+
 
 
 if __name__ == '__main__':

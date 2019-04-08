@@ -1,0 +1,196 @@
+/* ----------------------------------------- */
+/* Responsive Stylesheet for the application */
+/* ----------------------------------------- */
+
+/* -- VARIABLES: Couleurs du document */
+
+variables {
+  --main-color: #32BEA6;
+  --secondary-color: rgb(42, 85, 78);
+  --tertiary-color: rgb(193, 223, 218);
+  --text-color: black;
+}
+
+/* Uncomment for debugging
+{
+  border:1px solid gray;
+}
+*/
+
+
+
+/* HEADER */
+/* Responsive Header */
+  .header {
+    overflow: hidden;
+    background-color: var(--main-color, #32BEA6);
+    padding: 20px 10px;
+  }
+  
+  /* Style du logo dans le header */
+  .header a.logo {
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  /* Liens dans le header */
+  .header a {
+    float: left;
+    color: var(--text-color, black);
+    text-align: center;
+    padding: 3px;
+    text-decoration: none;
+    font-size: 10px; 
+    line-height: 15px;
+    border-radius: 2px;
+  }
+  
+  /* Changer la couleur de fond des liens lors du passage de la souris */
+  .header a:hover {
+    background-color: #ddd;
+    color: var(--text-color, black);
+  }
+  
+  /* Style pour le lien actif (en vue de modéliser un menu) */
+  .header a.active {
+    background-color: var(--main-color, #32BEA6);
+    color: white;
+  }
+  
+  /* La section où se trouvent les liens flotte sur la droite */
+  .header-right {
+    float: right;
+  }
+  
+  /* RESPONSIVE: en dessous de 9cm de large, les liens ne sont plus flottants mais affichés en dessous du logo */ 
+  @media screen and (max-width: 9cm) {
+    .header a {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    .header-right {
+      float: none;
+    }
+  }
+/* FIN HEADER */
+
+/* CORPS */ 
+/* Corps du contenu */ 
+body {
+   
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-size: 20px;
+    color: var(--text-color, black);;
+    margin-right: 0px;
+    margin-left: 0px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  text-align: center;
+}
+@media screen and (max-width: 12cm) {
+  h1{
+    font-size: 1.2em;
+  }
+  h2{
+    font-size: 1em;
+  }
+  h3{
+    font-size: 0.8em;
+  }
+  h4{
+    font-size: 0.6em;
+  }
+  h5{
+    font-size: 0.5em;
+  }
+  h6{
+    font-size: 0.45em;
+  }
+}
+
+/* Container: */
+/* Une zone dans laquelle se trouvent plusieurs choix possibles présentés par de grandes icônes */
+div#container {
+  margin: auto;
+  width: 80%;
+}
+@media screen and (max-width: 9cm) {
+  div#container {
+    margin: auto;
+    width: 100%;
+  }
+}
+
+/* Wrapper: */
+/* Au sein du container, permet de bien centrer la liste des éléments */
+div#wrapper {
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  padding: 0px;
+}
+
+/* Bloc: */
+/* Composé d'une image et d'un texte, ainsi qu'un lien hypertexte, il représente un élément */
+div#bloc {
+  display: inline-block;
+  text-align: center;
+  vertical-align: top;
+  width: 6cm;
+  height: auto;
+  margin-top: 0.5cm;
+  padding-top: 0.5cm;
+  margin-bottom: 0.5cm;
+  padding-bottom: 0.5cm;
+  margin-left: 0cm;
+  padding-left: 0.2cm;
+  margin-right: 0cm;
+  padding-right: 0.2cm;
+}
+
+/* Les images de chaque élément ont une taille standard de 4 cm de large */
+div#bloc img {
+    width: 4cm;
+    max-height: 6cm;
+}
+
+/* Les images de chaque élément ont une taille standard de 4 cm de large */
+div#bloc img#small {
+  width: 2cm;
+  max-height: 2cm;
+}
+
+/* Les liens des blocs sont animés */
+div#bloc a {
+  color: var(--main-color, #32BEA6);
+  transition: 0.5s;
+  cursor: pointer;
+}
+div#bloc a:active
+{
+  background-color: var(--secondary-color, rgb(42, 85, 78));
+  transition: 0.2s;
+}
+div#bloc a:hover
+{
+  background-color: var(--tertiary-color, rgb(193, 223, 218));
+  transition: 0.2s;
+}
+div#bloc a:visited
+{
+  color: var(--main-color, #32BEA6);
+}
+
+/* Ce lien emplit une division entièrement */
+a.fill-div {
+  float: left;
+  display: block;
+  height: inherit;
+  width: inherit;
+  overflow-wrap: break-word;
+  text-decoration: none;
+}

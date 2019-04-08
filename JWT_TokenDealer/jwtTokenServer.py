@@ -1,6 +1,7 @@
 import zmq
 import time
 import sys
+import jwtToken
 from  multiprocessing import Process
 
 def serverDealer(port="5556"):
