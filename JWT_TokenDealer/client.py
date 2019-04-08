@@ -1,7 +1,7 @@
 import zmq
 import sys
 
-port = "5556"
+port = "8888"
 context = zmq.Context()
 print("Connecting to server...")
 socket = context.socket(zmq.REQ)
