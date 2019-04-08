@@ -10,12 +10,11 @@ def serverDealer(port="5556"):
     socket.bind("tcp://*:%s" % port)
     print ("Running server on port: ", port)
     while(True) :
-        message = socket.recv()
-        binary = message.content
-        output = json.loads(binary)
+        message = socket.recv_json()
+        output = message
         encoded = jwtToken.chiffre(output['pseudo'],output['nom'],output['prenom'])
         time.sleep (1)
-        socket.send_string(encoded)
+        socket.send(encoded)
 
 def serverVerif(port="5557"):
     context = zmq.Context()

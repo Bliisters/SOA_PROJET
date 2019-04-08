@@ -21,9 +21,9 @@ def my_microservice():
 		socket.connect ("tcp://localhost:%s" % port)
 
 		if(confirmToken(request, socket)):
-			response = "Good token : " + request.environ["HTTP_AUTHORIZATION"]
+			response = jsonify("Ressource : https://www.youtube.com/watch?v=JUsW-1mn-aM ")
 			print(response)
-			return response
+			return response, 200
 		else:
 			response = jsonify({'msg': 'Wrong Token !'})
 			print(response)
@@ -53,4 +53,4 @@ def confirmToken(request, socket):
 if __name__ == '__main__':
     print(app.url_map)
 
-app.run()
+app.run(host='127.0.0.1',port='5001')

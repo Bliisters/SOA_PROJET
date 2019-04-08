@@ -1,6 +1,8 @@
 from flask import Flask, jsonify, request
 from pymongo import MongoClient
 import datetime
+import requests
+import zmq
 import pprint
 import random
 import string
@@ -12,32 +14,6 @@ app = Flask(__name__)
 Less Basics Microservices
 With usage of variables in the app.route
 """
-
-@app.route('/api', methods=['POST', 'DELETE', 'GET'])
-
-
-def my_microservice():
-    print(request)
-    print(request.environ)
-    response = jsonify({'Hello': 'World!'})
-    print(response)
-    print(response.data)
-    return response
-
-
-@app.route('/api/person/<int:person_id>')
-def person(person_id):
-    response = jsonify({'Hello': person_id})
-    return response
-
-@app.route('/api/test')
-def test(nom):
-    client = MongoClient()
-    db = client.test_database
-    collection = db.posts
-    print("HELLO")
-    doc = pprint.pprint(collection.find_one())
-    return ("WORLD")
 
 @app.route('/api/add', methods = ['POST'])
 def addUser():
@@ -128,28 +104,25 @@ def login():
     if sel:
         print("mdp : "+str(hash(str(mdp)+sel)))
         #ici travailler sur ZMQ
-        response = jsonify({'token': 't0k3n'})
-        print(response)
-        return response
+        port = "5556"
+        context = zmq.Context()
+        print("Connecting to server...")
+        socket = context.socket(zmq.REQ)
+        socket.connect ("tcp://localhost:%s" % port)
+        data = {'pseudo': 'tata','nom': 'tata','prenom': 'tata'}
+        socket.send_json(data)
+        message = socket.recv()
+        token = message.decode('utf-8')
+        print(token)
+        url = 'http://localhost:5001/api'
+        headers = {'Authorization':token}
+        r = requests.get(url, headers=headers)
+        return r.json()
     else:
         print("Connection impossible : vérifiez vos identifiants")
         response = jsonify({'msg': 'mauvais identifiants de connexion'})
         print(response)
         return response
-
-	# Vérification de l'existence du profil
-	#doc = collection.find_one({"pseudo": pseudo, "mdp": mdp})
-
-	#if doc == None:
-	#	print("Identifiants invalides")
-	#else:
-	#	print("Vous êtes connecté !")
-
-	#return("")
-
-
-
-
 
 if __name__ == '__main__':
     print(app.url_map)
