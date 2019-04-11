@@ -96,31 +96,40 @@ def login():
     collection_salt = db.baleine
 
 	# Hashage & salage du mdp
-    print(user)
+    psw = collection_user.find_one({"pseudo":user})
+    psw = psw['mdp']
+    print(psw)
     sel = collection_salt.find_one({"user":user},{"_id":0})
     sel = sel["salt"]
     print(sel)
 
     if sel:
         print("mdp : "+str(hash(str(mdp)+sel)))
-        #ici travailler sur ZMQ
-        port = "5556"
-        context = zmq.Context()
-        print("Connecting to server...")
-        socket = context.socket(zmq.REQ)
-        socket.connect ("tcp://localhost:%s" % port)
-        data = {'pseudo': 'tata','nom': 'tata','prenom': 'tata'}
-        socket.send_json(data)
-        message = socket.recv()
-        token = message.decode('utf-8')
-        print(token)
-        url = 'http://localhost:5001/api'
-        headers = {'Authorization':token}
-        r = requests.get(url, headers=headers)
-        return r.json()
+        if(str(hash(str(mdp)+sel)) == str(psw)):
+            #ici travailler sur ZMQ
+            port = "5556"
+            context = zmq.Context()
+            print("Connecting to server...")
+            socket = context.socket(zmq.REQ)
+            socket.connect ("tcp://localhost:%s" % port)
+            data = {'pseudo': 'tata','nom': 'tata','prenom': 'tata'}
+            socket.send_json(data)
+            message = socket.recv()
+            token = message.decode('utf-8')
+            print(token)
+            url = 'http://localhost:5001/api'
+            headers = {'Authorization':token}
+            r = requests.get(url, headers=headers)
+            return r.json()
+        else:
+            print("Connection impossible : vérifiez vos identifiants")
+            response = jsonify({'msg': 'mauvais identifiants de connexion'})
+            print(response)
+            return response
+
     else:
         print("Connection impossible : vérifiez vos identifiants")
-        response = jsonify({'msg': 'mauvais identifiants de connexion'})
+        response = jsonify({'msg': 'mauvais identifiants de connexionsel'})
         print(response)
         return response
 

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>Middle Office Validation</title>
+		<title>Application Coffre-Fort</title>
 		<link rel="stylesheet" type="text/css" href="style.css">
         <meta charset="UTF-8">
         <script src="search.js"></script>
@@ -10,10 +10,10 @@
 	<body>
 
 		<div class="header">
-			<a href="#default" class="logo">CompanyLogo</a>
+			<a href="index.html" class="logo">Accueil</a>
 		</div>
 
-        <h1>Recherche de Décision par ID</h1>
+        <h1>Création de Compte</h1>
 
         <div id="info">
 					<form method="post" action="http://localhost:5000/api/add">
@@ -21,15 +21,9 @@
 						<p><label>Nom : </label> <input type="text" name="nom" required/></p>
 						<p><label>Prenom : </label> <input type="text" name="prenom" required/></p>
 						<p><label>MDP : </label> <input type="text" name="mdp" required/></p>
-						<button type="submit">Se connecter</button>
+						<center><button type="submit">Se connecter</button></center>
 					</form>
         </div>
-
-        <script type="text/javascript">
-            function action(){
-
-            }
-        </script>
 
     </body>
 </html>

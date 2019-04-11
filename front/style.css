@@ -5,7 +5,7 @@
 /* -- VARIABLES: Couleurs du document */
 
 variables {
-  --main-color: #32BEA6;
+  --main-color: #DC143C;
   --secondary-color: rgb(42, 85, 78);
   --tertiary-color: rgb(193, 223, 218);
   --text-color: black;
@@ -23,10 +23,10 @@ variables {
 /* Responsive Header */
   .header {
     overflow: hidden;
-    background-color: var(--main-color, #32BEA6);
+    background-color: var(--main-color,	#DC143C);
     padding: 20px 10px;
   }
-  
+
   /* Style du logo dans le header */
   .header a.logo {
     font-size: 25px;
@@ -40,29 +40,29 @@ variables {
     text-align: center;
     padding: 3px;
     text-decoration: none;
-    font-size: 10px; 
+    font-size: 10px;
     line-height: 15px;
     border-radius: 2px;
   }
-  
+
   /* Changer la couleur de fond des liens lors du passage de la souris */
   .header a:hover {
     background-color: #ddd;
     color: var(--text-color, black);
   }
-  
+
   /* Style pour le lien actif (en vue de modéliser un menu) */
   .header a.active {
-    background-color: var(--main-color, #32BEA6);
+    background-color: var(--main-color, #DC143C);
     color: white;
   }
-  
+
   /* La section où se trouvent les liens flotte sur la droite */
   .header-right {
     float: right;
   }
-  
-  /* RESPONSIVE: en dessous de 9cm de large, les liens ne sont plus flottants mais affichés en dessous du logo */ 
+
+  /* RESPONSIVE: en dessous de 9cm de large, les liens ne sont plus flottants mais affichés en dessous du logo */
   @media screen and (max-width: 9cm) {
     .header a {
       float: none;
@@ -75,10 +75,10 @@ variables {
   }
 /* FIN HEADER */
 
-/* CORPS */ 
-/* Corps du contenu */ 
+/* CORPS */
+/* Corps du contenu */
 body {
-   
+
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
     font-size: 20px;
     color: var(--text-color, black);;
@@ -166,7 +166,7 @@ div#bloc img#small {
 
 /* Les liens des blocs sont animés */
 div#bloc a {
-  color: var(--main-color, #32BEA6);
+  color: var(--main-color, #DC143C);
   transition: 0.5s;
   cursor: pointer;
 }
@@ -182,7 +182,7 @@ div#bloc a:hover
 }
 div#bloc a:visited
 {
-  color: var(--main-color, #32BEA6);
+  color: var(--main-color, #DC143C);
 }
 
 /* Ce lien emplit une division entièrement */
