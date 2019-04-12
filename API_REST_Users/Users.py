@@ -37,6 +37,14 @@ def addUser():
         print(response)
         return response
 
+	# Vérification de la complexité
+    if mdp.lower()== mdp and mdp.upper()==mdp or mdp.isalnum()==mdp:
+        print("Mot de passe trop peu complexe : ajoutez des majuscules, minuscules ou nombres")
+        response = jsonify({'error': 'Mot de passe trop peu complexe : ajoutez des majuscules, minuscules ou nombres'})
+        print(response)
+        return response
+		
+		
 	# Connection à la base de donnée
     client = MongoClient()
     db = client.soa_db
