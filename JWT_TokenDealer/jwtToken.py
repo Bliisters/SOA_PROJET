@@ -33,5 +33,3 @@ def dechiffre(encoded) :
     except:
         return "False"
 
-encoded=chiffre('dd','dd','dd')
-print(dechiffre(encoded))
